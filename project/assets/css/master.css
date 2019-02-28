@@ -33,8 +33,6 @@
     
     --shadowColor: 2px 0 rgba(0,0,0,.15);
 
-    --minSize: 20rem;
-    --medSize: 20rem;
     --maxSize: 15rem;
 
     /* 
@@ -63,6 +61,15 @@ main{
     justify-content: center;
 }
 
+input[type="radio"]{
+    -moz-appearance: none;
+    height: 1rem;
+    width: 1rem;
+    background: #f1f1f1;
+    position: absolute;
+    z-index: 11;
+}
+
 .container{
     height: var(--maxSize);
     width: var(--maxSize);
@@ -75,63 +82,129 @@ main{
 
 .container-grid{
     display: grid;
-    grid-template-columns: var(--gridMed);
-    grid-template-rows: var(--gridDesk);
-    height: var(--minSize);
+    grid-template-columns: var(--gridMax);
+    grid-template-rows: var(--gridMax);
+    height: var(--maxSize);
+    width: var(--maxSize);
     background: var(--gridColor);
     position: absolute;
     transform-origin: center center;
     transition: .5s ease all, 1s ease grid-template-columns, 1s ease grid-template-rows;
     pointer-events: none;
+    opacity: 1;
 }
 
-#rain.container-grid{
-    height: var(--maxSize);
-    width: var(--maxSize);
+.radio.cross{
+    height: 2rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) rotate(45deg);
+    transition: .3s ease all;
+    filter: drop-shadow(0 0 5px #424242aa)
+}
+
+.radio.cross:after{
+    content: "";
+    display: block;
+    position: absolute;
+    height: 2rem;
+    width: 1rem;
+    transform: rotate(90deg);
+    background: inherit;
+    transition: .3s ease all;
+}
+
+.radio.cross:checked,
+.radio.cross:checked:after{
+    height: 1rem;
+}
+
+.radio.cross:checked{
+    transform: translate(-50%,-50%) rotate(0);
+}
+
+.radio.cross:checked ~ #wind{
+    transform: rotateY(90deg) rotateZ(45deg);
+}
+.radio.cross:checked ~ #sunshine{
+    transform: rotateX(-90deg) rotateZ(45deg);
+}
+.radio.cross:checked ~ #snow{
+    transform: rotateX(90deg) rotateZ(45deg);
+}
+.radio.cross:checked ~ #storm{
+    transform: rotateY(-90deg) rotateZ(45deg);
+}
+
+.radio.minus{
+    width: 2rem;
+    top: 50%;
+    left: 75%;
+    transform: translate(-50%,-50%);
+    transition: .3s ease all;
+    filter: drop-shadow(0 0 5px #424242aa)
+}
+
+.radio.minus:checked{
+    width: 1rem;
+}
+
+.radio.plus{
+    height: 2rem;
+    top: 50%;
+    left: 25%;
+    transform: translate(-50%,-50%);
+    transition: .3s ease all;
+    filter: drop-shadow(0 0 5px #424242aa)
+}
+
+.radio.plus:after{
+    content: "";
+    display: block;
+    position: absolute;
+    height: 2rem;
+    width: 1rem;
+    transform: rotate(90deg);
+    background: inherit;
+    transition: .3s ease all;
+}
+
+.radio.plus:checked,
+.radio.plus:checked:after{
+    height: 1rem;
+}
+
+.radio.plus:checked ~ #wind{
+    transform: rotateY(180deg);
+}
+.radio.plus:checked ~ #sunshine{
+    transform: rotateX(-180deg);
+}
+.radio.plus:checked ~ #snow{
+    transform: rotateX(180deg);
+}
+.radio.plus:checked ~ #storm{
+    transform: rotateY(-180deg);
 }
 
 #wind.container-grid{
-    height: var(--maxSize);
-    width: var(--maxSize);
-    opacity: 1;
-    grid-template-columns: var(--gridMed);
-    grid-template-rows: var(--gridMed);
     transform-origin: left center;
     transform: rotateY(90deg)
 }
 
 #sunshine.container-grid{
-    height: var(--maxSize);
-    width: var(--maxSize);
-    opacity: 1;
-    grid-template-columns: var(--gridDesk);
-    grid-template-rows: var(--gridMed);
     transform-origin: top center;
     transform: rotateX(-90deg)
 }
 
 #snow.container-grid{
-    height: var(--maxSize);
-    width: var(--maxSize);
-    opacity: 1;
-    grid-template-columns: var(--gridDesk);
-    grid-template-rows: var(--gridMed);
     transform-origin: bottom center;
     transform: rotateX(90deg)
 }
 
 #storm.container-grid{
-    height: var(--maxSize);
-    width: var(--maxSize);
-    opacity: 1;
-    grid-template-columns: var(--gridDesk);
-    grid-template-rows: var(--gridMed);
     transform-origin: right center;
     transform: rotateY(-90deg)
-}
-
-.container:hover .container-grid{
-    transform: rotate(90deg) scale(.5) !important;
 }
 
 .container-grid .square{
@@ -154,14 +227,12 @@ main{
 }
 
 #snow.container-grid .square{
-    background: #ebc;
+    background: var(--secondaryColor);
 }
 
 #storm.container-grid .square{
     background: var(--mainRed);
 }
-
-
 
 .square:nth-child(1){
     background: #424242;
